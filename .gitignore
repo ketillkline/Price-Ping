@@ -1,0 +1,25 @@
+# created by virtualenv automatically
+# created by virtualenv automatically
+venv/
+.env/
+.env*/
+
+
+Lib/
+Scripts/
+pyvenv.cfg
+
+__pycache__/
+*.pyc
+
+db.sqlite3
+
+.playwright/
+.pytest_cache/
+.DS_Store
+
+*/migrations/
+
+.idea/
+.vscode/
+
