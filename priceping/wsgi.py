@@ -1,5 +1,5 @@
 """
-WSGI config for accounts1 project.
+WSGI config for priceping project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 

@@ -1,5 +1,5 @@
 """
-URL configuration for accounts1 project.
+URL configuration for priceping project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from priceping import views
+from accounts import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
