@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from accounts import views
+from priceping import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("", views.DashboardView.as_view(),name="dashboard")
+    path("", views.DashboardView.as_view(), name="dashboard")
 ]
