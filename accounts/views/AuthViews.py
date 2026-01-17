@@ -6,3 +6,8 @@ def login_view(request: HttpRequest):
     match request.method:
         case "GET":
             return render(request, template_name)
+def signup_view(request: HttpRequest):
+    template_name = "signup.html"
+    match request.method:
+        case "GET":
+            return render(request, template_name)
