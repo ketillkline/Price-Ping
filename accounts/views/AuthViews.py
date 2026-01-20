@@ -42,6 +42,10 @@ def signup_view(request: HttpRequest):
             if password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match"})
 
+            User = get_user_model()
+            user = User.objects.create_user(username=username, password=password)
+
+
 def recovery_view(request: HttpRequest):
     template_name = "recovery.html"
     match request.method:
