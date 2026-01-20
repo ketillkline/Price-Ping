@@ -43,6 +43,7 @@ def signup_view(request: HttpRequest):
                 return render(request, template_name, {"errors": "Passwords must match"})
 
 def recovery_view(request: HttpRequest):
+    template_name = "recovery.html"
     match request.method:
         case "GET":
             return render(request, template_name)
@@ -51,3 +52,21 @@ def recovery_view(request: HttpRequest):
 
             if not email:
                 return render(request, template_name, {"errors": "Please fill in all required fields"})
+
+
+def reset_view(request: HttpRequest):
+    template_name = "reset.html"
+    match request.method:
+        case "GET":
+            return render(request, template_name)
+
+        case "POST":
+            password = request.POST.get("password")
+            confirm_password = request.POST.get("confirm-password")
+
+            if not password or not confirm_password:
+                return render(request, template_name, {"errors": "Please fill in all required fields."})
+
+            if password != confirm_password:
+                return render(request, template_name, {"errors": "Passwords must match"})
+
