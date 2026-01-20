@@ -44,6 +44,7 @@ def signup_view(request: HttpRequest):
 
             User = get_user_model()
             user = User.objects.create_user(username=username, password=password)
+            return redirect("/login/")
 
 
 def recovery_view(request: HttpRequest):
