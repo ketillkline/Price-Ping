@@ -10,9 +10,9 @@
         <h1 id="login-header">Welcome!</h1>
         <div class="errors">
             {% if errors %}
-                {% for error in errors %}
+                <{% for error in errors %}
                     <li style="color:red;">⚠️ {{ error }}</li>
-                {% endfor %}
+                {% endfor %}>
             {% endif %}
         </div><br>
          <form method="POST">

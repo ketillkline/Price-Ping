@@ -31,3 +31,14 @@ def signup_view(request: HttpRequest):
     match request.method:
         case "GET":
             return render(request, template_name)
+        case "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            confirm_password = request.POST.get("confirm-password")
+
+            if not username or not password or not confirm_password:
+                return render(request, template_name, {"errors": "Please fill in all required fields"})
+
+            if password != confirm_password:
+                return render(request, template_name, {"errors": "Passwords must match"})
+
