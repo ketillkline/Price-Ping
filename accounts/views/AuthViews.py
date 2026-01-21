@@ -1,6 +1,9 @@
 from django.http import HttpRequest
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.core.validators import EmailValidator
+from django.core.exceptions import ValidationError
 
 
 def login_view(request: HttpRequest):
@@ -34,6 +37,7 @@ def signup_view(request: HttpRequest):
         case "POST":
             username = request.POST.get("username")
             password = request.POST.get("password")
+            email = request.POST.get("email")
             confirm_password = request.POST.get("confirm-password")
 
             if not username or not password or not confirm_password:
@@ -42,7 +46,7 @@ def signup_view(request: HttpRequest):
             if password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match"})
 
-            User = get_user_model()
+            
             user = User.objects.create_user(username=username, password=password)
             return redirect("/login/")
 
@@ -57,14 +61,20 @@ def recovery_view(request: HttpRequest):
 
             if not email:
                 return render(request, template_name, {"errors": "Please fill in all required fields"})
+            
+            if User.objects.filter(email=email).exists():
+                return redirect('reset', email=email)
 
 
-def reset_view(request: HttpRequest):
+
+
+
+
+def reset_view(request: HttpRequest, email: str):
     template_name = "reset.html"
     match request.method:
         case "GET":
             return render(request, template_name)
-
         case "POST":
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm-password")
@@ -75,3 +85,5 @@ def reset_view(request: HttpRequest):
             if password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match"})
 
+            
+            user = User.objects.get(email=email)
