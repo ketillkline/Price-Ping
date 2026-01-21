@@ -7,8 +7,6 @@ from django.core.exceptions import ValidationError
 
 
 def login_view(request: HttpRequest):
-    # take out set
-    errors = set()
     template_name = "login.html"
     match request.method:
         case "GET":
@@ -18,12 +16,10 @@ def login_view(request: HttpRequest):
             password = request.POST.get("password")
 
             if not username or not password:
-                errors.add("Please fill in all required fields")
-                return render(request, template_name, {"errors": errors})
+                return render(request, template_name, {"errors": "Please fill in all required fields"})
             user = authenticate(request, username=username, password=password)
             if not user:
-                errors.add("Account does not exist")
-                return render(request, template_name, {"errors": errors})
+                return render(request, template_name, {"errors": "Account does not exist"})
             login(request, user)
             return redirect("dashboard")
 
@@ -36,21 +32,22 @@ def signup_view(request: HttpRequest):
             return render(request, template_name)
         case "POST":
             username = request.POST.get("username").strip()
-            password = request.POST.get("password")
             email = request.POST.get("email").strip()
             try:
                 validator = EmailValidator()
                 validator(email)
             except ValidationError as e:
-                return render(request, template_name, {"errors": e})
-
+                return render(request, template_name, {"errors": e, "username": username})
+            password = request.POST.get("password")
             confirm_password = request.POST.get("confirm-password")
 
             if not username or not password or not confirm_password:
-                return render(request, template_name, {"errors": "Please fill in all required fields"})
+                return render(request, template_name, {"errors": "Please fill in all required fields", "username": username,
+                                                       "email": email})
 
             if password != confirm_password:
-                return render(request, template_name, {"errors": "Passwords must match"})
+                return render(request, template_name, {"errors": "Passwords must match", "username": username,
+                                                       "email": email})
 
             
             user = User.objects.create_user(username=username, password=password)
@@ -64,12 +61,18 @@ def recovery_view(request: HttpRequest):
             return render(request, template_name)
         case "POST":
             email = request.POST.get("email").strip()
+            try:
+                validator = EmailValidator()
+                validator(email)
+            except ValidationError as e:
+                return render(request, template_name, {"errors": e})
 
             if not email:
                 return render(request, template_name, {"errors": "Please fill in all required fields"})
             
             if User.objects.filter(email=email).exists():
                 return redirect('reset', email=email)
+            return render(request, template_name, {"errors": f"Account under '{email}' does not exist."})
 
 
 
