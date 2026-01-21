@@ -96,3 +96,7 @@ def reset_view(request: HttpRequest, email: str):
 
             
             user = User.objects.get(email=email)
+
+def logout_view(request: HttpRequest):
+    logout(request)
+    return redirect("login")

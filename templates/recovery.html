@@ -8,13 +8,22 @@
 
 <div class="container">
     <h1 class="page-header">Let's Get Your Account Back!</h1>
-    <div class="inputs">
-        <input type="email" placeholder="Email" name="email"><br><br>
-    </div>
-
-    <div class="buttons">
-        <button type="submit">Reset Password</button>
-    </div>
+     <div class="errors">
+        {% if errors %}
+            <{% for error in errors %}
+                <li style="color:red;">⚠️ {{ error }}</li>
+            {% endfor %}>
+        {% endif %}
+     </div><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="inputs">
+            <input type="email" placeholder="Email" name="email"><br><br>
+        </div>
+        <div class="buttons">
+            <button type="submit">Reset Password</button>
+        </div>
+    </form>
     <p><a href="/login/">Remembered your password?</a></p>
 
 </div>
