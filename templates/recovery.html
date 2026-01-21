@@ -10,9 +10,7 @@
     <h1 class="page-header">Let's Get Your Account Back!</h1>
      <div class="errors">
         {% if errors %}
-            <{% for error in errors %}
-                <li style="color:red;">⚠️ {{ error }}</li>
-            {% endfor %}>
+         <p style="color:red;">⚠️ {{ errors }}</p>
         {% endif %}
      </div><br>
     <form method="POST">

@@ -9,10 +9,8 @@
 <div class="container">
     <h1 class="page-header">Let's Reset That Password!</h1>
     <div class="errors">
-        {% if errors %}
-            <{% for error in errors %}
-                <li style="color:red;">⚠️ {{ error }}</li>
-            {% endfor %}>
+         {% if errors %}
+            <p style="color:red;">⚠️ {{ errors }}</p>
         {% endif %}
     </div><br>
     <form method="POST">

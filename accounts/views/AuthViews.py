@@ -33,24 +33,25 @@ def signup_view(request: HttpRequest):
         case "POST":
             username = request.POST.get("username").strip()
             email = request.POST.get("email").strip()
-            try:
-                validator = EmailValidator()
-                validator(email)
-            except ValidationError as e:
-                return render(request, template_name, {"errors": e, "username": username})
             password = request.POST.get("password")
             confirm_password = request.POST.get("confirm-password")
 
             if not username or not password or not confirm_password:
                 return render(request, template_name, {"errors": "Please fill in all required fields", "username": username,
                                                        "email": email})
+            try:
+                validator = EmailValidator()
+                validator(email)
+            except ValidationError as e:
+                return render(request, template_name, {"errors": e, "username": username})
 
             if password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match", "username": username,
                                                        "email": email})
-
+            if User.objects.filter(username=username, email=email).exists():
+                return render(request, template_name, {"errors": f"Account under '{username}' already exists!"})
             
-            user = User.objects.create_user(username=username, password=password)
+            user = User.objects.create_user(username=username, password=password, email=email)
             return redirect("/login/")
 
 

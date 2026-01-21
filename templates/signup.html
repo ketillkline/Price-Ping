@@ -7,11 +7,16 @@
 <body>
     <div class="contanier">
         <h1 id="signup-header">Create your account!</h1>
+        <div class="errors">
+        {% if errors %}
+            <p style="color:red;">⚠️ {{ errors }}</p>
+        {% endif %}
+        </div><br>
         <form method="POST">
             {% csrf_token %}
             <div class="inputs">
-                <input type="text" name="username" placeholder="Username" value="username"><br><br>
-                <input type="email" name="email" placeholder="Email" value="email"><br><br>
+                <input type="text" name="username" placeholder="Username" value="{{ username }}"><br><br>
+                <input type="email" name="email" placeholder="Email" value="{{ email }}"><br><br>
                 <input type="password" name="password" placeholder="Password"><br><br>
                 <input type="password" name="confirm-password" placeholder="Confirm Password"><br><br>
             <div class="buttons-group">
