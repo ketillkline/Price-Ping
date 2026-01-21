@@ -14,7 +14,7 @@ def login_view(request: HttpRequest):
         case "GET":
             return render(request, template_name)
         case "POST":
-            username = request.POST.get("username")
+            username = request.POST.get("username").strip()
             password = request.POST.get("password")
 
             if not username or not password:
@@ -35,9 +35,15 @@ def signup_view(request: HttpRequest):
         case "GET":
             return render(request, template_name)
         case "POST":
-            username = request.POST.get("username")
+            username = request.POST.get("username").strip()
             password = request.POST.get("password")
-            email = request.POST.get("email")
+            email = request.POST.get("email").strip()
+            try:
+                validator = EmailValidator()
+                validator(email)
+            except ValidationError as e:
+                return render(request, template_name, {"errors": e})
+
             confirm_password = request.POST.get("confirm-password")
 
             if not username or not password or not confirm_password:
@@ -57,7 +63,7 @@ def recovery_view(request: HttpRequest):
         case "GET":
             return render(request, template_name)
         case "POST":
-            email = request.POST.get("email")
+            email = request.POST.get("email").strip()
 
             if not email:
                 return render(request, template_name, {"errors": "Please fill in all required fields"})
