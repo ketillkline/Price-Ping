@@ -86,17 +86,20 @@ def reset_view(request: HttpRequest, email: str):
         case "GET":
             return render(request, template_name)
         case "POST":
-            password = request.POST.get("password")
+            new_password = request.POST.get("password")
             confirm_password = request.POST.get("confirm-password")
 
-            if not password or not confirm_password:
+            if not new_password or not confirm_password:
                 return render(request, template_name, {"errors": "Please fill in all required fields."})
 
-            if password != confirm_password:
+            if new_password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match"})
 
             
             user = User.objects.get(email=email)
+            user.set_password(new_password)
+            user.save()
+            return redirect("login")
 
 def logout_view(request: HttpRequest):
     logout(request)
