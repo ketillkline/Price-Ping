@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.core.validators import EmailValidator
 from django.core.exceptions import ValidationError
+from accounts.custom_validators import StrongPasswordValidator
 
 
 def login_view(request: HttpRequest):
@@ -39,6 +40,15 @@ def signup_view(request: HttpRequest):
             if not username or not password or not confirm_password:
                 return render(request, template_name, {"errors": "Please fill in all required fields", "username": username,
                                                        "email": email})
+
+
+            try:
+                validator = StrongPasswordValidator()
+                validator.validate(password)
+            except ValidationError as e:
+                return render(request, template_name, {"errors": e, "username": username})
+
+
             try:
                 validator = EmailValidator()
                 validator(email)

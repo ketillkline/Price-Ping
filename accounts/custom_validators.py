@@ -14,7 +14,7 @@ class StrongPasswordValidator:
             raise ValidationError(_(self.get_help_text("At least 1 lowercase letter")))
         if not re.search(r"\d", password):
             raise ValidationError(_(self.get_help_text("At least 1 number")))
-        if not re.search(r"!@#\$%\^&*\(\),.<>/;:`~", password):
+        if not re.search(r"[!@#$%^&*(),.<>/;:`~]+", password):
             raise ValidationError(_(self.get_help_text("At least 1 special character")))
         if len(password) < self.min_length:
             raise ValidationError(_(self.get_help_text(f"Only {len(password)} characters long. Must be at least {self.min_length}")))
