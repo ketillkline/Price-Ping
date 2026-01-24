@@ -11,5 +11,13 @@ def test_user(django_db_setup, django_db_blocker):
 
 @pytest.fixture(scope="session")
 def browser(test_user):
-    pass
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        yield browser
+        browser.close()
 
+@pytest.fixture(scope="session")
+def page(browser):
+    page = browser.new_page()
+    yield page
+    page.close()
