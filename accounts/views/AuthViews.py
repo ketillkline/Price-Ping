@@ -58,8 +58,11 @@ def signup_view(request: HttpRequest):
             if password != confirm_password:
                 return render(request, template_name, {"errors": "Passwords must match", "username": username,
                                                        "email": email})
-            if User.objects.filter(username=username, email=email).exists():
+            if User.objects.filter(username=username).exists():
                 return render(request, template_name, {"errors": f"Account under '{username}' already exists!"})
+            else:
+                if User.objects.filter(email=email).exists():
+                    return render(request, template_name, {"errors": f"Account under '{email}' already exists!"})
             
             user = User.objects.create_user(username=username, password=password, email=email)
             return redirect("/login/")
