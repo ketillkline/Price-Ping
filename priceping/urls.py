@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from accounts import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,12 @@ urlpatterns = [
     path("signup/", views.signup_view, name="signup"),
     path("recovery/", views.recovery_view, name="recovery"),
     path("reset/", views.reset_view, name="reset"),
-    path("logout/", views.logout_view, name="logout")
+    path("logout/", views.logout_view, name="logout"),
+    path("password-reset/done/",
+         auth_views.PasswordResetView.as_view(
+             template_name="registration/password_reset_form.html"
+         ),
+         name="password_reset"
+         ),
+
 ]
