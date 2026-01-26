@@ -2,9 +2,36 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Password Reset</title>
 </head>
 <body>
 
+<div class="container">
+    <h1 class="page-header">Let's Reset That Password!</h1>
+    <div class="errors">
+         {% if errors %}
+            <p style="color:red;">⚠️ {{ errors }}</p>
+        {% endif %}
+    </div><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="inputs">
+             <div class="password-info">
+                <li>
+                    Passwords must contain at least:<br>
+                    - 1 uppercase letter<br>
+                    - 1 lowercase letter<br>
+                    - 1 number<br>
+                    - 1 special character (!@#$%^&*(),.<>/;:`~)<br>
+                    - 8 characters
+                </li>
+            </div>
+            <input name="password" type="password" placeholder="New Password">
+            <input name="confirm-password" type="password" placeholder="Confirm New Password">
+        </div>
+        <div class="buttons">
+            <button type="submit">Confirm</button>
+        </div>
+    </form>
 </body>
 </html>

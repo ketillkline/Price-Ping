@@ -2,9 +2,41 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Signup</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'accounts/signup.css' %}">
 </head>
 <body>
+    <div class="contanier">
+        <h1 id="signup-header">Create your account!</h1>
+        <div class="errors">
+        {% if errors %}
+            <p style="color:red;">⚠️ {{ errors }}</p>
+        {% endif %}
+        </div><br>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="inputs">
+                <input type="text" name="username" placeholder="Username" value="{{ username }}"><br><br>
+                <input type="email" name="email" placeholder="Email" value="{{ email }}"><br><br>
+                <div class="password-info">
+                    <li>
+                        Passwords must contain at least:<br>
+                        - 1 uppercase letter<br>
+                        - 1 lowercase letter<br>
+                        - 1 number<br>
+                        - 1 special character (!@#$%^&*(),.<>/;:`~)<br>
+                        - 8 characters
+                    </li>
+                </div>
+                <input type="password" name="password" placeholder="Password"><br><br>
+                <input type="password" name="confirm-password" placeholder="Confirm Password"><br><br>
+            <div class="buttons-group">
+                <button type="submit" name="login-button">Login</button>
+                <p><a href="/login/">Already have an account?</a> </p>
+            </div>
+        </form>
+    </div>
 
 </body>
 </html>

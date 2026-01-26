@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Account Recovery</title>
 </head>
 <body>
+
+<div class="container">
+    <h1 class="page-header">Let's Get Your Account Back!</h1>
+     <div class="errors">
+        {% if errors %}
+         <p style="color:red;">⚠️ {{ errors }}</p>
+        {% endif %}
+     </div><br>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="inputs">
+            <input type="email" placeholder="Email" name="email"><br><br>
+        </div>
+        <div class="buttons">
+            <button type="submit">Reset Password</button>
+        </div>
+    </form>
+    <p><a href="/login/">Remembered your password?</a></p>
+
+</div>
 
 </body>
 </html>
