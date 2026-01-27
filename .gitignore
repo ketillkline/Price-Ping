@@ -5,7 +5,8 @@ venv/
 .env*/
 .env
 
-
+include
+staticfiles
 Lib/
 Scripts/
 pyvenv.cfg
